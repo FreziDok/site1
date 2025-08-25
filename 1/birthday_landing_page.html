@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ТЕСТ — тема: День Рождения (много шариков)</title>
+  <meta name="description" content="Праздничная страница с большим количеством шариков, подарков и конфетти — анимированная.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: #fffdf7;
+      --bg2: #fff6ff;
+      --accent-a: #ff5c8a;
+      --accent-b: #ffd35c;
+      --accent-c: #7be3ff;
+      --accent-d: #b084ff;
+      --text: #1b1b1b;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial; color:var(--text);
+      background: radial-gradient(800px 420px at 8% 18%, rgba(255,92,138,0.08), transparent),
+                  radial-gradient(700px 320px at 92% 82%, rgba(123,227,255,0.06), transparent),
+                  linear-gradient(180deg,var(--bg1),var(--bg2));
+      display:flex; align-items:center; justify-content:center; padding:28px;
+    }
+
+    .center{width:100%; max-width:1280px; min-height:72vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; border-radius:26px;}
+
+    /* decorative SVG layer */
+    .decor{position:absolute; inset:0; pointer-events:none; z-index:0}
+    .decor svg{width:100%; height:100%; display:block}
+
+    /* animation helpers */
+    .balloon, .gift, .heart, .conf-shape { transform-box: fill-box; transform-origin: center; }
+
+    /* different float speeds and delays via utility classes */
+    .float-slow{ animation:float 8s ease-in-out infinite }
+    .float-med{ animation:float 6s ease-in-out infinite }
+    .float-fast{ animation:float 4.6s ease-in-out infinite }
+    .float-alt{ animation-direction:alternate }
+
+    @keyframes float{
+      0%{transform:translateY(0) rotate(-4deg)}
+      50%{transform:translateY(-34px) rotate(6deg)}
+      100%{transform:translateY(0) rotate(-4deg)}
+    }
+    @keyframes bob{0%{transform:translateY(0)}50%{transform:translateY(-16px)}100%{transform:translateY(0)}}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+    @keyframes twist{0%{transform:rotate(0deg)}50%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}
+
+    h1{position:relative; z-index:3; margin:0; text-align:center; font-weight:800; letter-spacing:0.02em; text-transform:uppercase;
+       font-size:clamp(48px, 9vw, 110px); line-height:1; color:var(--text); filter: drop-shadow(0 16px 40px rgba(0,0,0,0.14));}
+
+    .panel{position:absolute; z-index:2; width:86%; height:46%; border-radius:24px; background:linear-gradient(180deg, rgba(255,255,255,0.97), rgba(255,255,255,0.92)); box-shadow:0 26px 72px rgba(11,30,50,0.08); backdrop-filter: blur(6px);}
+
+    /* confetti falling pieces (HTML) */
+    .confetti{position:absolute; inset:0; z-index:4; pointer-events:none}
+    .confetti span{position:absolute; width:10px; height:14px; background:var(--accent-a); opacity:0.95; transform-origin:center; animation:fall 6s linear infinite}
+    .confetti span:nth-child(odd){border-radius:3px}
+    .confetti span:nth-child(even){border-radius:2px}
+    @keyframes fall{0%{transform:translateY(-22vh) rotate(0deg); opacity:0} 10%{opacity:1} 100%{transform:translateY(120vh) rotate(420deg); opacity:0}}
+
+    /* responsive */
+    @media (max-width:600px){ .panel{width:92%; height:54%; border-radius:14px} }
+  </style>
+</head>
+<body>
+  <main class="center" role="main" aria-label="Тестовая праздничная страница">
+
+    <div class="decor" aria-hidden="true">
+      <svg viewBox="0 0 1400 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gA" x1="0" x2="1">
+            <stop offset="0" stop-color="#ff5c8a" stop-opacity="0.32" />
+            <stop offset="1" stop-color="#ffd35c" stop-opacity="0.2" />
+          </linearGradient>
+          <linearGradient id="gB" x1="0" x2="1">
+            <stop offset="0" stop-color="#7be3ff" stop-opacity="0.28" />
+            <stop offset="1" stop-color="#ffd2f0" stop-opacity="0.18" />
+          </linearGradient>
+          <linearGradient id="gC" x1="0" x2="1">
+            <stop offset="0" stop-color="#b084ff" stop-opacity="0.28" />
+            <stop offset="1" stop-color="#7be3ff" stop-opacity="0.12" />
+          </linearGradient>
+        </defs>
+
+        <!-- Generate many balloons across the canvas -->
+        <!-- Left column balloons -->
+        <g class="balloon float-slow float-alt" transform="translate(80,260)">
+          <ellipse rx="54" ry="68" fill="url(#gA)" />
+          <path d="M-8 68 Q0 112 8 68" stroke="#ff5c8a" stroke-width="2" fill="none" opacity="0.95" />
+        </g>
+        <g class="balloon float-med" transform="translate(140,160)">
+          <ellipse rx="40" ry="52" fill="url(#gB)" />
+          <path d="M-5 52 Q0 86 5 52" stroke="#7be3ff" stroke-width="1.8" fill="none" opacity="0.96" />
+        </g>
+        <g class="balloon float-fast" transform="translate(220,320)">
+          <ellipse rx="68" ry="86" fill="#ffd35c" />
+          <path d="M-12 86 Q0 152 12 86" stroke="#ffd35c" stroke-width="2.6" fill="none" opacity="0.9" />
+        </g>
+        <g class="balloon float-med" transform="translate(40,100)">
+          <ellipse rx="34" ry="44" fill="#b084ff" />
+          <path d="M-4 44 Q0 76 4 44" stroke="#b084ff" stroke-width="1.6" fill="none" opacity="0.88" />
+        </g>
+
+        <!-- center-left cluster -->
+        <g class="balloon float-slow" transform="translate(320,220)">
+          <ellipse rx="46" ry="60" fill="url(#gB)" />
+          <path d="M-6 60 Q0 100 6 60" stroke="#7be3ff" stroke-width="1.9" fill="none" opacity="0.95" />
+        </g>
+        <g class="balloon float-med float-alt" transform="translate(400,140)">
+          <ellipse rx="58" ry="76" fill="#ff5c8a" />
+          <path d="M-8 76 Q0 128 8 76" stroke="#ff5c8a" stroke-width="2" fill="none" opacity="0.95" />
+        </g>
+
+        <!-- many small balloons scattered -->
+        <g class="balloon float-fast" transform="translate(520,80)"><ellipse rx="24" ry="30" fill="#ffd2f0" /><path d="M-2 30 Q0 56 2 30" stroke="#ffd2f0" stroke-width="1" fill="none" opacity="0.95" /></g>
+        <g class="balloon float-fast" transform="translate(620,120)"><ellipse rx="28" ry="36" fill="#7be3ff" /><path d="M-3 36 Q0 68 3 36" stroke="#7be3ff" stroke-width="1" fill="none" opacity="0.95" /></g>
+        <g class="balloon float-med" transform="translate(700,60)"><ellipse rx="36" ry="46" fill="#b084ff" /><path d="M-4 46 Q0 86 4 46" stroke="#b084ff" stroke-width="1.4" fill="none" opacity="0.95" /></g>
+
+        <!-- center cluster (around main text) - visible but behind panel -->
+        <g class="balloon float-slow" transform="translate(720,260)"><ellipse rx="52" ry="66" fill="url(#gA)" /><path d="M-6 66 Q0 108 6 66" stroke="#ff5c8a" stroke-width="2" fill="none" opacity="0.95" /></g>
+        <g class="balloon float-med" transform="translate(820,220)"><ellipse rx="44" ry="56" fill="#ffd35c" /><path d="M-5 56 Q0 96 5 56" stroke="#ffd35c" stroke-width="1.8" fill="none" opacity="0.95" /></g>
+        <g class="balloon float-fast float-alt" transform="translate(940,180)"><ellipse rx="66" ry="86" fill="#ff5c8a" /><path d="M-10 86 Q0 150 10 86" stroke="#ff5c8a" stroke-width="2.4" fill="none" opacity="0.9" /></g>
+
+        <!-- right column many balloons -->
+        <g class="balloon float-slow" transform="translate(1080,140)"><ellipse rx="50" ry="64" fill="url(#gC)" /><path d="M-6 64 Q0 100 6 64" stroke="#b084ff" stroke-width="1.9" fill="none" opacity="0.95" /></g>
+        <g class="balloon float-med" transform="translate(1180,220)"><ellipse rx="42" ry="54" fill="#ffd2f0" /><path d="M-5 54 Q0 92 5 54" stroke="#ffd2f0" stroke-width="1.6" fill="none" opacity="0.95" /></g>
+        <g class="balloon float-fast" transform="translate(1240,80)"><ellipse rx="30" ry="38" fill="#7be3ff" /><path d="M-3 38 Q0 66 3 38" stroke="#7be3ff" stroke-width="1" fill="none" opacity="0.95" /></g>
+
+        <!-- GIFTS: scatter many gifts of different sizes -->
+        <g class="gift" transform="translate(200,700) scale(0.9)">
+          <rect x="-36" y="-36" width="96" height="72" rx="10" fill="#7be3ff" stroke="#7bdfff" stroke-width="2" />
+          <rect x="-4" y="-36" width="12" height="72" fill="#ffd2f0" />
+        </g>
+        <g class="gift" transform="translate(340,720) scale(1.1)">
+          <rect x="-44" y="-40" width="120" height="80" rx="12" fill="#ffd35c" stroke="#ffcf6b" stroke-width="2" />
+          <rect x="6" y="-86" width="52" height="36" rx="8" fill="#ff5c8a" />
+          <rect x="-6" y="-40" width="22" height="80" fill="#ff5c8a" />
+        </g>
+        <g class="gift" transform="translate(520,760) scale(0.85)">
+          <rect x="-32" y="-34" width="72" height="60" rx="10" fill="#b084ff" stroke="#a67bff" stroke-width="2" />
+          <rect x="-2" y="-34" width="8" height="60" fill="#ffd2f0" />
+        </g>
+        <g class="gift" transform="translate(760,720) scale(1.0)">
+          <rect x="-40" y="-38" width="88" height="68" rx="10" fill="#ff5c8a" stroke="#ffa1bf" stroke-width="2" />
+          <rect x="-4" y="-38" width="12" height="68" fill="#ffd2f0" />
+        </g>
+        <g class="gift" transform="translate(980,750) scale(1.05)">
+          <rect x="-46" y="-44" width="112" height="84" rx="12" fill="#ffd35c" stroke="#ffcf6b" stroke-width="2" />
+          <rect x="-6" y="-44" width="20" height="84" fill="#ff5c8a" />
+        </g>
+        <g class="gift" transform="translate(1160,700) scale(0.9)">
+          <rect x="-30" y="-30" width="68" height="56" rx="8" fill="#7be3ff" stroke="#7bdfff" stroke-width="2" />
+          <rect x="-3" y="-30" width="6" height="56" fill="#ffd2f0" />
+        </g>
+
+        <!-- More small balloons and confetti shapes to increase density -->
+        <g class="balloon float-fast" transform="translate(160,420)"><ellipse rx="22" ry="28" fill="#ffd2f0" /><path d="M-2 28 Q0 48 2 28" stroke="#ffd2f0" stroke-width="0.9" fill="none" opacity="0.95" /></g>
+        <g class="balloon float-med" transform="translate(280,480)"><ellipse rx="26" ry="34" fill="#ffb3d0" /><path d="M-3 34 Q0 62 3 34" stroke="#ffb3d0" stroke-width="1" fill="none" opacity="0.95" /></g>
+        <g class="balloon float-slow" transform="translate(420,420)"><ellipse rx="48" ry="60" fill="#ffe6a7" /><path d="M-6 60 Q0 104 6 60" stroke="#ffe6a7" stroke-width="1.6" fill="none" opacity="0.95" /></g>
+        <g class="balloon float-med" transform="translate(580,460)"><ellipse rx="36" ry="46" fill="#b084ff" /><path d="M-4 46 Q0 86 4 46" stroke="#b084ff" stroke-width="1.4" fill="none" opacity="0.95" /></g>
+        <g class="balloon float-fast" transform="translate(860,420)"><ellipse rx="30" ry="36" fill="#ffd2f0" /><path d="M-3 36 Q0 66 3 36" stroke="#ffd2f0" stroke-width="1" fill="none" opacity="0.95" /></g>
+
+        <!-- scattered hearts -->
+        <g class="heart" transform="translate(60,760) scale(0.9)" opacity="0.95" fill="#ff5c8a"><path d="M24 0c-6.6 0-12 5.4-12 12 0 13.5 24 28 24 28s24-14.5 24-28c0-6.6-5.4-12-12-12-6 0-10 3.6-12 6.6C34 3.6 30 0 24 0z"/></g>
+        <g class="heart" transform="translate(340,660) scale(0.7)" opacity="0.85" fill="#ffd2f0"><path d="M24 0c-6.6 0-12 5.4-12 12 0 13.5 24 28 24 28s24-14.5 24-28c0-6.6-5.4-12-12-12-6 0-10 3.6-12 6.6C34 3.6 30 0 24 0z"/></g>
+        <g class="heart" transform="translate(1040,620) scale(0.85)" opacity="0.9" fill="#ff9bbf"><path d="M24 0c-6.6 0-12 5.4-12 12 0 13.5 24 28 24 28s24-14.5 24-28c0-6.6-5.4-12-12-12-6 0-10 3.6-12 6.6C34 3.6 30 0 24 0z"/></g>
+
+        <!-- dense confetti cluster top area -->
+        <g transform="translate(200,40)">
+          <rect x="0" y="0" width="10" height="20" rx="2" fill="#ffd2f0" transform="rotate(12)" opacity="0.95" class="conf-shape"/>
+          <rect x="30" y="-8" width="8" height="18" rx="2" fill="#ffe6a7" transform="rotate(-20)" opacity="0.95" class="conf-shape"/>
+          <circle cx="78" cy="8" r="12" fill="#b084ff" opacity="0.9" class="conf-shape"/>
+        </g>
+
+        <g transform="translate(980,40)">
+          <rect x="-10" y="-2" width="12" height="22" rx="2" fill="#ff5c8a" transform="rotate(-8)" opacity="0.95" class="conf-shape"/>
+          <circle cx="44" cy="18" r="10" fill="#7be3ff" opacity="0.9" class="conf-shape"/>
+        </g>
+
+      </svg>
+    </div>
+
+    <div class="panel" aria-hidden="true"></div>
+
+    <h1>тест тест тест тест тест</h1>
+
+    <div class="confetti" aria-hidden="true">
+      <span style="left:4%; top:-12%; animation-duration:5.2s"></span>
+      <span style="left:12%; top:-10%; animation-duration:6.4s"></span>
+      <span style="left:20%; top:-15%; animation-duration:5.8s"></span>
+      <span style="left:28%; top:-9%; animation-duration:6.1s"></span>
+      <span style="left:36%; top:-11%; animation-duration:5.5s"></span>
+      <span style="left:44%; top:-13%; animation-duration:6.6s"></span>
+      <span style="left:52%; top:-8%; animation-duration:5.9s"></span>
+      <span style="left:60%; top:-14%; animation-duration:6.9s"></span>
+      <span style="left:68%; top:-10%; animation-duration:5.4s"></span>
+      <span style="left:76%; top:-12%; animation-duration:6.7s"></span>
+      <span style="left:84%; top:-11%; animation-duration:5.6s"></span>
+      <span style="left:92%; top:-13%; animation-duration:7.0s"></span>
+    </div>
+
+  </main>
+</body>
+</html>
